@@ -3,7 +3,7 @@ let eventManager;
 let adviceService;
 let hustleCardInstances = {};
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     checkForExistingSave();
     setupWelcomeScreen();
 });
@@ -32,32 +32,37 @@ function setupWelcomeScreen() {
     });
 }
 
-function startGame() {
+async function startGame() {
     // Hide welcome screen and show game
     document.getElementById('welcome-screen').style.display = 'none';
     document.getElementById('game-container').style.display = 'flex';
     document.body.classList.remove('show-welcome');
     
-    // Initialize game
+    // Initialize game engine FIRST
     gameEngine = new GameEngine();
     
-    gameEngine.init().then(() => {
-        eventManager = new EventManager(gameEngine);
-        adviceService = new AdviceService(gameEngine);
-        
-        createAllHustleCards();
-        setupEventListeners();
-        
-        eventManager.start();
-        gameEngine.startGameLoop(renderUI);
-        
-        // Show tutorial for new players
-        if (!localStorage.getItem('streetHustleSave_v1')) {
-            setTimeout(() => {
-                showTutorial();
-            }, 1000);
-        }
-    });
+    // THEN initialize PlayFab
+    console.log("Setting up PlayFab...");
+    await gameEngine.initializePlayFab();
+    
+    // Continue with normal initialization
+    await gameEngine.init();
+    
+    eventManager = new EventManager(gameEngine);
+    adviceService = new AdviceService(gameEngine);
+    
+    createAllHustleCards();
+    setupEventListeners();
+    
+    eventManager.start();
+    gameEngine.startGameLoop(renderUI);
+    
+    // Show tutorial for new players
+    if (!localStorage.getItem('streetHustleSave_v1')) {
+        setTimeout(() => {
+            showTutorial();
+        }, 1000);
+    }
 }
 
 function showTutorial() {

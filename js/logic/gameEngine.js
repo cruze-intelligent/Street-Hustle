@@ -1,21 +1,22 @@
 class GameEngine {
     constructor() {
         this.gameState = {
-            money: 500, // Start with some money for first upgrade
+            money: 500,
             hustles: {},
             lastUpdate: Date.now(),
-            totalEarnings: 0, // Track total money ever earned
-            gameStartTime: Date.now(), // Track when the game started
-            sessionStartTime: Date.now() // Track current session
+            totalEarnings: 0,
+            gameStartTime: Date.now(),
+            sessionStartTime: Date.now()
         };
         this.hustleConfig = [];
         this.gameLoopInterval = null;
+        this.playfabEnabled = false;
     }
 
     async init() {
         await this.loadHustleConfig();
-        this.loadGame();
-        this.gameState.sessionStartTime = Date.now(); // Reset session time on init
+        await this.loadGame(); // Make sure this is async
+        this.gameState.sessionStartTime = Date.now();
         console.log("Street Hustle: Engine Started!");
         return true;
     }
@@ -27,7 +28,6 @@ class GameEngine {
             console.log("Loaded hustles:", this.hustleConfig);
         } catch (error) {
             console.error("Failed to load hustle configuration:", error);
-            // Use fallback data if JSON fails to load
             this.hustleConfig = [
                 {
                     id: "clothing",
@@ -67,8 +67,8 @@ class GameEngine {
         const config = this.hustleConfig.find(h => h.id === hustleId);
         return {
             level: 0,
-            isUnlocked: config.baseCost === 0, // First hustle (clothes) starts unlocked
-            canUnlock: config.baseCost === 0, // First hustle can be upgraded immediately
+            isUnlocked: config.baseCost === 0,
+            canUnlock: config.baseCost === 0,
             isAutomated: false,
             automationProgress: 0,
             eventMultiplier: 1
@@ -80,10 +80,9 @@ class GameEngine {
         const state = this.gameState.hustles[hustleId];
         
         if (!state.isUnlocked) {
-            return config.baseCost; // Cost to unlock
+            return config.baseCost;
         }
         
-        // Cost to upgrade to next level
         return Math.ceil(config.baseCost === 0 ? 
             500 * Math.pow(config.costMultiplier, state.level) : 
             config.baseCost * Math.pow(config.costMultiplier, state.level));
@@ -126,7 +125,6 @@ class GameEngine {
 
         let moneyEarned = 0;
         
-        // Process automated hustles
         Object.keys(this.gameState.hustles).forEach(hustleId => {
             let state = this.gameState.hustles[hustleId];
             if (state.isAutomated && state.level > 0) {
@@ -145,7 +143,6 @@ class GameEngine {
             this.earnMoney(moneyEarned);
         }
         
-        // Check for new hustle unlocks
         this.checkHustleUnlocks();
         
         if (renderCallback) {
@@ -160,7 +157,6 @@ class GameEngine {
             
             if (!state.isUnlocked && index > 0) {
                 const previousHustle = this.gameState.hustles[this.hustleConfig[index - 1].id];
-                // Unlock next hustle when previous one reaches level 5
                 if (previousHustle && previousHustle.level >= 5) {
                     state.canUnlock = true;
                     console.log(`${config.name} can now be unlocked!`);
@@ -171,7 +167,7 @@ class GameEngine {
     
     earnMoney(amount, showAnimation = false, element = null) {
         this.gameState.money += amount;
-        this.gameState.totalEarnings += amount; // Track total earnings
+        this.gameState.totalEarnings += amount;
         if (showAnimation && element) {
             this.showCoinAnimation(`+${this.formatMoney(amount)}`, element);
         }
@@ -182,7 +178,6 @@ class GameEngine {
         const config = this.hustleConfig.find(h => h.id === hustleId);
         if (!config || !state || !state.isUnlocked) return;
         
-        // Manual income is 10% of one automated cycle income
         const baseManualIncome = state.level > 0 ? 
             this.getHustleIncome(hustleId) * 0.1 : 
             config.baseIncome * 0.1;
@@ -202,12 +197,10 @@ class GameEngine {
             this.gameState.money -= cost;
             
             if (!state.isUnlocked) {
-                // Unlocking the hustle
                 state.isUnlocked = true;
                 state.level = 1;
-                state.canUnlock = false; // Reset the unlock flag
+                state.canUnlock = false;
                 
-                // Show unlock notification
                 Swal.fire({
                     title: 'New Hustle Unlocked! 🎉',
                     text: `${config.icon} ${config.name} is now available!`,
@@ -218,11 +211,9 @@ class GameEngine {
                     position: 'top-end'
                 });
             } else {
-                // Upgrading existing hustle
                 state.level += 1;
             }
             
-            // Check for automation unlock
             if (!state.isAutomated && state.level >= config.automation.unlockRequirement) {
                 state.isAutomated = true;
                 
@@ -241,7 +232,152 @@ class GameEngine {
         }
     }
 
-    // NEW: Show detailed earnings statistics
+    /**
+     * Initialize PlayFab when game starts
+     */
+    async initializePlayFab() {
+        try {
+            console.log("Initializing PlayFab...");
+            await playfabService.loginAnonymous();
+            this.playfabEnabled = true;
+            console.log("PlayFab ready!");
+            return true;
+        } catch (error) {
+            console.error("PlayFab initialization failed:", error);
+            this.playfabEnabled = false;
+            return false;
+        }
+    }
+
+    /**
+     * Load game - tries cloud first, then local storage
+     */
+    async loadGame() {
+        // Try loading from PlayFab cloud first
+        if (this.playfabEnabled) {
+            try {
+                const cloudData = await playfabService.loadGameData();
+                if (cloudData) {
+                    console.log("✅ Loading from cloud save");
+                    this.gameState.money = cloudData.money;
+                    this.gameState.totalEarnings = cloudData.totalEarnings;
+                    this.gameState.hustles = cloudData.hustles;
+                    
+                    // Ensure all new properties exist
+                    this.ensureGameStateIntegrity();
+                    return true;
+                }
+            } catch (error) {
+                console.warn("Cloud load failed, trying local storage:", error);
+            }
+        }
+
+        // Fallback to local storage
+        const savedGame = localStorage.getItem('streetHustleSave_v1');
+        if (savedGame) {
+            console.log("✅ Loading from local storage");
+            const data = JSON.parse(savedGame);
+            this.gameState.money = data.money || 0;
+            this.gameState.totalEarnings = data.totalEarnings || 0;
+            this.gameState.hustles = data.hustles || {};
+            this.gameState.gameStartTime = data.gameStartTime || Date.now();
+            
+            // Ensure all new properties exist
+            this.ensureGameStateIntegrity();
+            return true;
+        }
+
+        // New game - initialize hustles
+        this.ensureGameStateIntegrity();
+        return false;
+    }
+
+    /**
+     * Ensure all hustles and properties exist in gameState
+     */
+    ensureGameStateIntegrity() {
+        this.gameState.lastUpdate = Date.now();
+        
+        // Ensure new properties exist
+        if (!this.gameState.hasOwnProperty('totalEarnings')) {
+            this.gameState.totalEarnings = 0;
+        }
+        if (!this.gameState.hasOwnProperty('gameStartTime')) {
+            this.gameState.gameStartTime = Date.now();
+        }
+        
+        // Ensure all hustles from config have a state
+        this.hustleConfig.forEach(hustle => {
+            if (!this.gameState.hustles[hustle.id]) {
+                this.gameState.hustles[hustle.id] = this.getInitialHustleState(hustle.id);
+            } else {
+                // Ensure eventMultiplier exists
+                if (!this.gameState.hustles[hustle.id].hasOwnProperty('eventMultiplier')) {
+                    this.gameState.hustles[hustle.id].eventMultiplier = 1;
+                }
+                // Ensure canUnlock exists
+                if (!this.gameState.hustles[hustle.id].hasOwnProperty('canUnlock')) {
+                    this.gameState.hustles[hustle.id].canUnlock = hustle.baseCost === 0;
+                }
+            }
+        });
+    }
+
+    /**
+     * Save game - saves to both local and cloud
+     */
+    async saveGame() {
+        const gameStateToSave = {
+            money: this.gameState.money,
+            totalEarnings: this.gameState.totalEarnings,
+            hustles: this.gameState.hustles,
+            gameStartTime: this.gameState.gameStartTime
+        };
+
+        // Always save locally
+        localStorage.setItem('streetHustleSave_v1', JSON.stringify(gameStateToSave));
+        console.log("✅ Saved to local storage");
+
+        // Also save to cloud if enabled
+        if (this.playfabEnabled) {
+            try {
+                await playfabService.saveGameData(gameStateToSave);
+                await playfabService.submitScore(this.gameState.totalEarnings);
+                
+                Swal.fire({
+                    title: 'Progress Saved! 💾☁️',
+                    text: 'Saved locally and to cloud!',
+                    icon: 'success',
+                    timer: 1500,
+                    showConfirmButton: false,
+                    toast: true,
+                    position: 'top-end'
+                });
+            } catch (error) {
+                console.warn("Cloud save failed:", error);
+                Swal.fire({
+                    title: 'Progress Saved! 💾',
+                    text: 'Saved locally only',
+                    icon: 'success',
+                    timer: 1500,
+                    showConfirmButton: false,
+                    toast: true,
+                    position: 'top-end'
+                });
+            }
+        } else {
+            Swal.fire({
+                title: 'Progress Saved! 💾',
+                text: 'Your hustle empire is safe!',
+                icon: 'success',
+                timer: 1500,
+                showConfirmButton: false,
+                toast: true,
+                position: 'top-end'
+            });
+        }
+    }
+
     showEarningsStats() {
         const sessionTime = Date.now() - this.gameState.sessionStartTime;
         const totalGameTime = Date.now() - this.gameState.gameStartTime;
@@ -256,7 +392,6 @@ class GameEngine {
             return `${seconds}s`;
         };
 
-        // Calculate hustle breakdown
         const hustleStats = this.hustleConfig.map(config => {
             const state = this.gameState.hustles[config.id];
             const income = this.getHustleIncome(config.id);
@@ -307,7 +442,6 @@ class GameEngine {
         });
     }
 
-    // NEW: Exit game with confirmation
     exitGame() {
         Swal.fire({
             title: 'Leave the Streets? 🚪',
@@ -318,10 +452,10 @@ class GameEngine {
             cancelButtonColor: '#3c3c3c',
             confirmButtonText: 'Yes, Exit Game',
             cancelButtonText: 'Keep Hustling'
-        }).then((result) => {
+        }).then(async (result) => {
             if (result.isConfirmed) {
                 // Auto-save before exit
-                this.saveGame();
+                await this.saveGame();
                 
                 // Show goodbye message
                 Swal.fire({
@@ -331,34 +465,26 @@ class GameEngine {
                     timer: 2000,
                     showConfirmButton: false
                 }).then(() => {
-                    // Stop the game loop first
                     if (this.gameLoopInterval) {
                         clearInterval(this.gameLoopInterval);
                         this.gameLoopInterval = null;
                     }
                     
-                    // Return to welcome screen
                     document.getElementById('game-container').style.display = 'none';
                     document.getElementById('welcome-screen').style.display = 'flex';
                     document.body.classList.add('show-welcome');
                     
-                    // CRITICAL: Check for save and show continue button
                     this.checkAndShowContinueButton();
-                    
-                    // Re-setup welcome screen event listeners if needed
                     this.setupWelcomeScreenFromExit();
                 });
             }
         });
     }
 
-    // NEW: Helper method to check for saves and show continue button
     checkAndShowContinueButton() {
-        // Use the global function instead of local logic
         if (window.checkForExistingSave) {
             window.checkForExistingSave();
         } else {
-            // Fallback if global function isn't available
             const hasSave = localStorage.getItem('streetHustleSave_v1');
             const continueButton = document.getElementById('load-game');
             if (hasSave && continueButton) {
@@ -368,18 +494,14 @@ class GameEngine {
         }
     }
 
-    // NEW: Setup welcome screen when returning from exit
     setupWelcomeScreenFromExit() {
-        // Remove any existing event listeners to prevent duplicates
         const startButton = document.getElementById('start-game');
         const continueButton = document.getElementById('load-game');
         
         if (startButton) {
-            // Clone button to remove existing event listeners
             const newStartButton = startButton.cloneNode(true);
             startButton.parentNode.replaceChild(newStartButton, startButton);
             
-            // Add fresh event listener
             newStartButton.addEventListener('click', () => {
                 localStorage.removeItem('streetHustleSave_v1');
                 this.restartGameFromWelcome();
@@ -387,38 +509,31 @@ class GameEngine {
         }
         
         if (continueButton) {
-            // Clone button to remove existing event listeners
             const newContinueButton = continueButton.cloneNode(true);
             continueButton.parentNode.replaceChild(newContinueButton, continueButton);
             
-            // Add fresh event listener
             newContinueButton.addEventListener('click', () => {
                 this.restartGameFromWelcome();
             });
         }
     }
 
-    // NEW: Restart game from welcome screen (used by both start and continue)
-    restartGameFromWelcome() {
+    async restartGameFromWelcome() {
         document.getElementById('welcome-screen').style.display = 'none';
         document.getElementById('game-container').style.display = 'flex';
         document.body.classList.remove('show-welcome');
         
-        // Reinitialize the game
-        this.init().then(() => {
-            // Restart game systems
-            window.eventManager = new EventManager(this);
-            window.adviceService = new AdviceService(this);
-            
-            // Recreate hustle cards
-            window.createAllHustleCards();
-            
-            // Start game systems
-            window.eventManager.start();
-            this.startGameLoop(window.renderUI);
-            
-            console.log('Game restarted from welcome screen');
-        });
+        await this.init();
+        
+        window.eventManager = new EventManager(this);
+        window.adviceService = new AdviceService(this);
+        
+        window.createAllHustleCards();
+        
+        window.eventManager.start();
+        this.startGameLoop(window.renderUI);
+        
+        console.log('Game restarted from welcome screen');
     }
 
     showHustleDetails(hustleId) {
@@ -477,63 +592,6 @@ class GameEngine {
         
         document.body.appendChild(coin);
         setTimeout(() => coin.remove(), 1000);
-    }
-
-    saveGame() {
-        try {
-            localStorage.setItem('streetHustleSave_v1', JSON.stringify(this.gameState));
-            Swal.fire({
-                title: 'Progress Saved! 💾', 
-                text: 'Your hustle empire is safe!', 
-                icon: 'success', 
-                timer: 1500, 
-                showConfirmButton: false, 
-                toast: true, 
-                position: 'top-end'
-            });
-        } catch (e) {
-            Swal.fire({title: 'Error!', text: 'Could not save progress.', icon: 'error'});
-        }
-    }
-
-    loadGame() {
-        const savedState = localStorage.getItem('streetHustleSave_v1');
-        if (savedState) {
-            try {
-                Object.assign(this.gameState, JSON.parse(savedState));
-                console.log("Game loaded successfully");
-            } catch (e) {
-                console.error("Save file corrupted, starting fresh:", e);
-            }
-        }
-        
-        this.gameState.lastUpdate = Date.now();
-        
-        // Ensure new properties exist
-        if (!this.gameState.hasOwnProperty('totalEarnings')) {
-            this.gameState.totalEarnings = 0;
-        }
-        if (!this.gameState.hasOwnProperty('gameStartTime')) {
-            this.gameState.gameStartTime = Date.now();
-        }
-        
-        // Ensure all hustles from config have a state
-        this.hustleConfig.forEach(hustle => {
-            if (!this.gameState.hustles[hustle.id]) {
-                this.gameState.hustles[hustle.id] = this.getInitialHustleState(hustle.id);
-            } else {
-                // Ensure eventMultiplier exists on loaded states
-                if (!this.gameState.hustles[hustle.id].hasOwnProperty('eventMultiplier')) {
-                    this.gameState.hustles[hustle.id].eventMultiplier = 1;
-                }
-                // Ensure canUnlock exists
-                if (!this.gameState.hustles[hustle.id].hasOwnProperty('canUnlock')) {
-                    this.gameState.hustles[hustle.id].canUnlock = hustle.baseCost === 0;
-                }
-            }
-        });
-        
-        console.log("Game state after load:", this.gameState);
     }
 
     resetGame() {
