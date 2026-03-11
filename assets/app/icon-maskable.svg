@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3f2416"/>
+      <stop offset="100%" stop-color="#120b07"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ef8f22"/>
+      <stop offset="100%" stop-color="#ffd18a"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" fill="url(#bg2)"/>
+  <circle cx="256" cy="256" r="182" fill="#1e120c" stroke="rgba(255,255,255,.08)" stroke-width="8"/>
+  <circle cx="354" cy="162" r="56" fill="#4ecf9e" fill-opacity=".22"/>
+  <path d="M150 318c54-52 106-78 156-78 46 0 88-18 126-54" fill="none" stroke="#4ecf9e" stroke-width="26" stroke-linecap="round"/>
+  <path d="M146 232c46-74 112-114 198-114 36 0 72 5 104 14" fill="none" stroke="url(#gold)" stroke-width="30" stroke-linecap="round"/>
+  <text x="256" y="296" text-anchor="middle" font-family="Impact, Haettenschweiler, Arial Narrow Bold, sans-serif" font-size="154" fill="#fff4e6" letter-spacing="8">SH</text>
+  <rect x="162" y="332" width="188" height="18" rx="9" fill="#fff4e6" fill-opacity=".9"/>
+</svg>

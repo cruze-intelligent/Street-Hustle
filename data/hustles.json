@@ -1,0 +1,324 @@
+[
+    {
+        "id": "clothing",
+        "districtId": "kisenyi",
+        "name": "Wash Clothes",
+        "icon": "🧺",
+        "description": "A dependable first grind. You build trust quickly and learn how to turn effort into repeat customers.",
+        "story": "Neighbours remember who delivers clean work on time.",
+        "baseCost": 0,
+        "baseUpgradeCost": 280,
+        "costMultiplier": 1.26,
+        "baseIncome": 130,
+        "manualFactor": 0.72,
+        "automation": {
+            "timer": 3000,
+            "unlockRequirement": 4
+        },
+        "unlock": {
+            "districtId": "kisenyi"
+        },
+        "trackUnlockLevel": 5,
+        "tracks": [
+            {
+                "id": "steady-route",
+                "name": "Steady Route",
+                "description": "Quicker turnarounds keep neighbours coming back.",
+                "incomeMultiplier": 0.96,
+                "speedMultiplier": 0.8
+            },
+            {
+                "id": "premium-touch",
+                "name": "Premium Touch",
+                "description": "Charge more for spotless finishing and careful handling.",
+                "incomeMultiplier": 1.34,
+                "speedMultiplier": 1.08
+            }
+        ],
+        "rewardHooks": ["first-wash"],
+        "storyTags": ["community", "trust", "consistency"]
+    },
+    {
+        "id": "airtime",
+        "districtId": "kisenyi",
+        "name": "Sell Airtime",
+        "icon": "📱",
+        "description": "You become the person people rely on when they need quick credit and a connected phone.",
+        "story": "A good corner and fast service can keep your cash moving all day.",
+        "baseCost": 3200,
+        "baseUpgradeCost": 1250,
+        "costMultiplier": 1.24,
+        "baseIncome": 290,
+        "manualFactor": 0.58,
+        "automation": {
+            "timer": 4000,
+            "unlockRequirement": 4
+        },
+        "unlock": {
+            "districtId": "kisenyi",
+            "previousHustleId": "clothing",
+            "previousHustleLevel": 3
+        },
+        "trackUnlockLevel": 5,
+        "tracks": [
+            {
+                "id": "student-bundle",
+                "name": "Student Bundle",
+                "description": "Move smaller packages faster for repeat buyers.",
+                "incomeMultiplier": 0.92,
+                "speedMultiplier": 0.76
+            },
+            {
+                "id": "business-line",
+                "name": "Business Line",
+                "description": "Sell higher-value packages with stronger margins.",
+                "incomeMultiplier": 1.38,
+                "speedMultiplier": 1.12
+            }
+        ],
+        "rewardHooks": ["network-start"],
+        "storyTags": ["mobility", "reliability", "traffic"]
+    },
+    {
+        "id": "charging",
+        "districtId": "kisenyi",
+        "name": "Charge Phones",
+        "icon": "🔋",
+        "description": "A dead battery becomes your opportunity. Reliable power turns waiting time into steady income.",
+        "story": "People talk about the booth that always keeps them online.",
+        "baseCost": 8200,
+        "baseUpgradeCost": 2600,
+        "costMultiplier": 1.25,
+        "baseIncome": 620,
+        "manualFactor": 0.45,
+        "automation": {
+            "timer": 5000,
+            "unlockRequirement": 4
+        },
+        "unlock": {
+            "districtId": "kisenyi",
+            "previousHustleId": "airtime",
+            "previousHustleLevel": 3
+        },
+        "trackUnlockLevel": 5,
+        "tracks": [
+            {
+                "id": "quick-top-up",
+                "name": "Quick Top-Up",
+                "description": "Move more customers through shorter charging cycles.",
+                "incomeMultiplier": 0.93,
+                "speedMultiplier": 0.78
+            },
+            {
+                "id": "power-lounge",
+                "name": "Power Lounge",
+                "description": "Offer premium charging with better margins per stop.",
+                "incomeMultiplier": 1.36,
+                "speedMultiplier": 1.1
+            }
+        ],
+        "rewardHooks": ["power-up"],
+        "storyTags": ["energy", "utility", "reliability"]
+    },
+    {
+        "id": "rolex",
+        "districtId": "wandegeya",
+        "name": "Sell Rolex",
+        "icon": "🌯",
+        "description": "Fast, familiar, and always in demand. You learn how speed and quality can scale together.",
+        "story": "A crowd forms quickly when your timing and flavour are right.",
+        "baseCost": 16000,
+        "baseUpgradeCost": 4500,
+        "costMultiplier": 1.24,
+        "baseIncome": 1100,
+        "manualFactor": 0.52,
+        "automation": {
+            "timer": 6500,
+            "unlockRequirement": 4
+        },
+        "unlock": {
+            "districtId": "wandegeya"
+        },
+        "trackUnlockLevel": 5,
+        "tracks": [
+            {
+                "id": "rush-hour",
+                "name": "Rush Hour",
+                "description": "Lean into speed and volume during peak demand.",
+                "incomeMultiplier": 0.94,
+                "speedMultiplier": 0.74
+            },
+            {
+                "id": "signature-roll",
+                "name": "Signature Roll",
+                "description": "Charge more for quality and consistency.",
+                "incomeMultiplier": 1.4,
+                "speedMultiplier": 1.14
+            }
+        ],
+        "rewardHooks": ["food-chain"],
+        "storyTags": ["food", "students", "tempo"]
+    },
+    {
+        "id": "tailoring",
+        "districtId": "wandegeya",
+        "name": "Tailor Repairs",
+        "icon": "🧵",
+        "description": "Quick repairs and clean finishes bring repeat clients and a stronger reputation.",
+        "story": "When your work is sharp, people start recommending you by name.",
+        "baseCost": 30000,
+        "baseUpgradeCost": 7800,
+        "costMultiplier": 1.25,
+        "baseIncome": 1800,
+        "manualFactor": 0.48,
+        "automation": {
+            "timer": 7200,
+            "unlockRequirement": 4
+        },
+        "unlock": {
+            "districtId": "wandegeya",
+            "previousHustleId": "rolex",
+            "previousHustleLevel": 3
+        },
+        "trackUnlockLevel": 5,
+        "tracks": [
+            {
+                "id": "repair-fast",
+                "name": "Repair Fast",
+                "description": "Shorter jobs keep money circulating throughout the day.",
+                "incomeMultiplier": 0.95,
+                "speedMultiplier": 0.78
+            },
+            {
+                "id": "designer-finish",
+                "name": "Designer Finish",
+                "description": "Higher-quality work commands premium rates.",
+                "incomeMultiplier": 1.37,
+                "speedMultiplier": 1.12
+            }
+        ],
+        "rewardHooks": ["style-move"],
+        "storyTags": ["craft", "quality", "trust"]
+    },
+    {
+        "id": "boda",
+        "districtId": "wandegeya",
+        "name": "Boda Boda Ride",
+        "icon": "🏍️",
+        "description": "Mobility changes everything. Fast delivery and dependable routes expand both income and influence.",
+        "story": "Once you can move quickly, the city starts opening up around you.",
+        "baseCost": 54000,
+        "baseUpgradeCost": 12000,
+        "costMultiplier": 1.27,
+        "baseIncome": 2700,
+        "manualFactor": 0.42,
+        "automation": {
+            "timer": 6500,
+            "unlockRequirement": 3
+        },
+        "unlock": {
+            "districtId": "wandegeya",
+            "previousHustleId": "tailoring",
+            "previousHustleLevel": 3
+        },
+        "trackUnlockLevel": 5,
+        "tracks": [
+            {
+                "id": "swift-route",
+                "name": "Swift Route",
+                "description": "Faster turnarounds keep rides and deliveries moving.",
+                "incomeMultiplier": 0.94,
+                "speedMultiplier": 0.7
+            },
+            {
+                "id": "executive-rides",
+                "name": "Executive Rides",
+                "description": "Fewer trips, higher payouts, better margins.",
+                "incomeMultiplier": 1.42,
+                "speedMultiplier": 1.16
+            }
+        ],
+        "rewardHooks": ["mobility"],
+        "storyTags": ["transport", "speed", "scale"]
+    },
+    {
+        "id": "produce",
+        "districtId": "nakasero",
+        "name": "Fresh Produce Deals",
+        "icon": "🥬",
+        "description": "Margins get tighter, but volume gets bigger. Negotiation and timing become serious business tools.",
+        "story": "Market discipline rewards people who show up prepared and stay consistent.",
+        "baseCost": 95000,
+        "baseUpgradeCost": 22000,
+        "costMultiplier": 1.28,
+        "baseIncome": 4300,
+        "manualFactor": 0.38,
+        "automation": {
+            "timer": 7000,
+            "unlockRequirement": 3
+        },
+        "unlock": {
+            "districtId": "nakasero"
+        },
+        "trackUnlockLevel": 5,
+        "tracks": [
+            {
+                "id": "bulk-moving",
+                "name": "Bulk Moving",
+                "description": "Move more inventory with tighter cycles.",
+                "incomeMultiplier": 0.95,
+                "speedMultiplier": 0.74
+            },
+            {
+                "id": "select-stock",
+                "name": "Select Stock",
+                "description": "Push higher-value stock with stronger margins.",
+                "incomeMultiplier": 1.4,
+                "speedMultiplier": 1.14
+            }
+        ],
+        "rewardHooks": ["market-shift"],
+        "storyTags": ["market", "scale", "negotiation"]
+    },
+    {
+        "id": "courier",
+        "districtId": "nakasero",
+        "name": "Courier Dispatch",
+        "icon": "📦",
+        "description": "You are no longer surviving day to day. You are managing movement, timing, and trust at scale.",
+        "story": "When people trust you with delivery windows, you stop looking like a hustler and start looking like an operator.",
+        "baseCost": 160000,
+        "baseUpgradeCost": 36000,
+        "costMultiplier": 1.29,
+        "baseIncome": 6200,
+        "manualFactor": 0.35,
+        "automation": {
+            "timer": 6500,
+            "unlockRequirement": 3
+        },
+        "unlock": {
+            "districtId": "nakasero",
+            "previousHustleId": "produce",
+            "previousHustleLevel": 3
+        },
+        "trackUnlockLevel": 5,
+        "tracks": [
+            {
+                "id": "route-density",
+                "name": "Route Density",
+                "description": "Optimize routes for faster dispatch cycles.",
+                "incomeMultiplier": 0.94,
+                "speedMultiplier": 0.68
+            },
+            {
+                "id": "priority-shipments",
+                "name": "Priority Shipments",
+                "description": "Handle fewer deliveries at premium prices.",
+                "incomeMultiplier": 1.45,
+                "speedMultiplier": 1.18
+            }
+        ],
+        "rewardHooks": ["operator-mode"],
+        "storyTags": ["logistics", "trust", "reputation"]
+    }
+]

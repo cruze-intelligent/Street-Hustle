@@ -1,0 +1,38 @@
+[
+    {
+        "id": "kisenyi",
+        "name": "Kisenyi Start",
+        "subtitle": "Tight margins, strong community, daily momentum.",
+        "description": "This is where your hustle gets tested. Every customer matters, every upgrade counts, and your name starts to carry weight.",
+        "theme": "Community trust and first wins",
+        "accent": "warm",
+        "startsUnlocked": true,
+        "requiredStreetCred": 0,
+        "requiredMissionId": null,
+        "hustleIds": ["clothing", "airtime", "charging"]
+    },
+    {
+        "id": "wandegeya",
+        "name": "Wandegeya Link",
+        "subtitle": "Student demand, fast turnover, louder reputation.",
+        "description": "Campus energy pushes your business to move faster. Smart service and reliable delivery turn side income into serious cashflow.",
+        "theme": "Fast traffic and growing visibility",
+        "accent": "emerald",
+        "startsUnlocked": false,
+        "requiredStreetCred": 25,
+        "requiredMissionId": "kisenyi-network",
+        "hustleIds": ["rolex", "tailoring", "boda"]
+    },
+    {
+        "id": "nakasero",
+        "name": "Nakasero Exchange",
+        "subtitle": "Higher stakes, higher standards, bigger deals.",
+        "description": "This district rewards consistency. Bigger customers expect better service, and the businesses that survive here look like empires.",
+        "theme": "Scale, polish, and strategic reputation",
+        "accent": "danger",
+        "startsUnlocked": false,
+        "requiredStreetCred": 80,
+        "requiredMissionId": "community-network",
+        "hustleIds": ["produce", "courier"]
+    }
+]

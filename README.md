@@ -1,33 +1,40 @@
 # Street Hustle
 
-Street Hustle is a web-based game that immerses players in the vibrant and dynamic streets of Kampala. Navigate challenges, make strategic decisions, and experience the hustle of city life.
+Street Hustle is a story-driven, Kampala-inspired idle tycoon built as a static web app. Players grow from small daily hustles into a multi-district business network through missions, achievements, story events, and local-first progression.
 
-## Live Demo
+## Live
 
-Play the game here: [Street Hustle Live](https://cruze-tech.github.io/Street-Hustle/)
+- Production: https://cruze-intelligent.github.io/Street-Hustle/
 
-## Features
+## How To Play
 
-- Engaging gameplay inspired by real-life scenarios.
-- Interactive decision-making mechanics.
-- Vibrant visuals and immersive storytelling.
+- Start with `Wash Clothes` and tap manually until your first upgrades begin compounding.
+- Spend cash to unlock more hustles, then push them to automation so income keeps running in the background.
+- Claim missions, achievements, streak rewards, comeback boosts, and the install reward to build Street Cred faster.
+- Use Street Cred plus district mission goals to unlock the next part of Kampala and expand your hustle network.
+- Specialize hustles with tracks and story-event choices once the basics are stable.
 
-## Installation
+## Project Structure
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/cruze-tech/Street-Hustle.git
-   ```
-2. Navigate to the project directory:
-   ```bash
-   cd Street-Hustle
-   ```
-3. Open `index.html` in your browser to start playing.
+- `index.html`: app shell and screen layout
+- `css/styles.css`: relaunch visual system and responsive layout
+- `js/core/`: app controller, engine, UI manager, rewards, cloud sync, and helpers
+- `data/`: districts, hustles, missions, events, and studio metadata
+- `service-worker.js` and `manifest.webmanifest`: PWA support
 
-## Contributing
+## Local Run
 
-Contributions are welcome! Feel free to fork the repository and submit a pull request.
+Serve the directory with any static server and open the site in a browser:
 
-## License
+```bash
+python3 -m http.server
+```
 
-This project is licensed under the MIT License.
+Then visit `http://localhost:8000/`.
+
+## Notes
+
+- Core gameplay works offline after the service worker is installed.
+- Cloud save is optional and uses PlayFab only when the device is online.
+- For the cleanest install flow, use Safari on iPhone/iPad or Chrome, Edge, or Samsung Internet on Android and desktop.
+- Developer details and studio copy are configured in `data/studio.json`.

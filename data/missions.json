@@ -1,0 +1,267 @@
+{
+    "missions": [
+        {
+            "id": "first-note",
+            "category": "onboarding",
+            "title": "Earn Your First Notes",
+            "description": "Tap your first hustle a few times and prove you can start with almost nothing.",
+            "tag": "Onboarding",
+            "requirements": [
+                { "type": "manual_taps", "target": 6 }
+            ],
+            "rewards": { "cash": 900, "streetCred": 2 },
+            "journalEntry": "You made your first consistent cash from honest work."
+        },
+        {
+            "id": "wash-with-purpose",
+            "category": "onboarding",
+            "title": "Wash With Purpose",
+            "description": "Upgrade Wash Clothes to level 3 so the work stops feeling random and starts feeling reliable.",
+            "tag": "Onboarding",
+            "requirements": [
+                { "type": "hustle_level", "hustleId": "clothing", "target": 3 }
+            ],
+            "rewards": { "cash": 1800, "streetCred": 4 },
+            "journalEntry": "People now see you as dependable, not just available."
+        },
+        {
+            "id": "unlock-airtime",
+            "category": "onboarding",
+            "title": "Get The Corner Talking",
+            "description": "Unlock Sell Airtime and turn traffic into faster daily turnover.",
+            "tag": "Onboarding",
+            "requirements": [
+                { "type": "unlock_hustle", "hustleId": "airtime", "target": 1 }
+            ],
+            "rewards": { "cash": 2600, "streetCred": 5 },
+            "journalEntry": "Your corner now has a service people come back for."
+        },
+        {
+            "id": "steady-signal",
+            "category": "onboarding",
+            "title": "Build A Steady Signal",
+            "description": "Reach UGX 240 per second in passive income and keep your cashflow moving even when you stop tapping.",
+            "tag": "Onboarding",
+            "requirements": [
+                { "type": "reach_income", "target": 240 }
+            ],
+            "rewards": { "cash": 3500, "streetCred": 6 },
+            "journalEntry": "For the first time, your business keeps working without your full attention."
+        },
+        {
+            "id": "kisenyi-network",
+            "category": "district",
+            "title": "Wire The Block",
+            "description": "Unlock Charge Phones and bring total earnings to UGX 22,000 to complete your first district chapter.",
+            "tag": "District Goal",
+            "requirements": [
+                { "type": "unlock_hustle", "hustleId": "charging", "target": 1 },
+                { "type": "earn_total", "target": 22000 }
+            ],
+            "rewards": { "cash": 4500, "streetCred": 10 },
+            "journalEntry": "Kisenyi now sees you as someone building real momentum."
+        },
+        {
+            "id": "first-automation",
+            "category": "milestone",
+            "title": "Let The Work Run",
+            "description": "Automate your first hustle so the streets keep paying even while you plan the next move.",
+            "tag": "Milestone",
+            "requirements": [
+                { "type": "automated_count", "target": 1 }
+            ],
+            "rewards": { "cash": 3200, "streetCred": 4 },
+            "journalEntry": "You built your first system, not just another job."
+        },
+        {
+            "id": "campus-demand",
+            "category": "milestone",
+            "title": "Meet Campus Demand",
+            "description": "Unlock Sell Rolex and reach 40 Street Cred to prove you can handle a busier district.",
+            "tag": "Milestone",
+            "requirements": [
+                { "type": "unlock_hustle", "hustleId": "rolex", "target": 1 },
+                { "type": "street_cred", "target": 40 }
+            ],
+            "rewards": { "cash": 6500, "streetCred": 6 },
+            "journalEntry": "Wandegeya starts to treat you like someone who belongs there."
+        },
+        {
+            "id": "community-network",
+            "category": "district",
+            "title": "Own The Route",
+            "description": "Unlock Boda Boda Ride and reach UGX 2,200 per second to finish your Wandegeya climb.",
+            "tag": "District Goal",
+            "requirements": [
+                { "type": "unlock_hustle", "hustleId": "boda", "target": 1 },
+                { "type": "reach_income", "target": 2200 }
+            ],
+            "rewards": { "cash": 12000, "streetCred": 16 },
+            "journalEntry": "You now move with confidence, reputation, and real range."
+        },
+        {
+            "id": "capital-route",
+            "category": "milestone",
+            "title": "Enter Bigger Markets",
+            "description": "Unlock Fresh Produce Deals and push lifetime earnings to UGX 180,000.",
+            "tag": "Milestone",
+            "requirements": [
+                { "type": "unlock_hustle", "hustleId": "produce", "target": 1 },
+                { "type": "earn_total", "target": 180000 }
+            ],
+            "rewards": { "cash": 24000, "streetCred": 14 },
+            "journalEntry": "You are operating on a bigger stage now."
+        },
+        {
+            "id": "dispatch-standard",
+            "category": "milestone",
+            "title": "Dispatch Standard",
+            "description": "Unlock Courier Dispatch and claim ten total rewards to prove your empire has rhythm.",
+            "tag": "Milestone",
+            "requirements": [
+                { "type": "unlock_hustle", "hustleId": "courier", "target": 1 },
+                { "type": "rewards_claimed", "target": 10 }
+            ],
+            "rewards": { "cash": 32000, "streetCred": 18 },
+            "journalEntry": "Your operation now feels disciplined, not improvised."
+        },
+        {
+            "id": "session-tap-run",
+            "category": "session",
+            "title": "Quick Shift",
+            "description": "Tap any hustle 30 times this session.",
+            "tag": "Session Quest",
+            "requirements": [
+                { "type": "manual_taps", "target": 30 }
+            ],
+            "rewards": { "cash": 2200, "streetCred": 2 }
+        },
+        {
+            "id": "session-upgrades",
+            "category": "session",
+            "title": "Reinvest Fast",
+            "description": "Buy three upgrades across your active hustles.",
+            "tag": "Session Quest",
+            "requirements": [
+                { "type": "hustle_upgrades", "target": 3 }
+            ],
+            "rewards": { "cash": 2400, "streetCred": 2 }
+        },
+        {
+            "id": "session-income",
+            "category": "session",
+            "title": "Cashflow Push",
+            "description": "Reach UGX 700 per second in income.",
+            "tag": "Session Quest",
+            "requirements": [
+                { "type": "reach_income", "target": 700 }
+            ],
+            "rewards": { "cash": 3000, "streetCred": 3 }
+        },
+        {
+            "id": "session-earnings",
+            "category": "session",
+            "title": "Stack The Notes",
+            "description": "Grow total earnings by UGX 12,000.",
+            "tag": "Session Quest",
+            "requirements": [
+                { "type": "earn_total", "target": 12000 }
+            ],
+            "rewards": { "cash": 2800, "streetCred": 3 }
+        },
+        {
+            "id": "session-claims",
+            "category": "session",
+            "title": "Collect Momentum",
+            "description": "Claim two rewards.",
+            "tag": "Session Quest",
+            "requirements": [
+                { "type": "rewards_claimed", "target": 2 }
+            ],
+            "rewards": { "cash": 2100, "streetCred": 2 }
+        },
+        {
+            "id": "session-cred",
+            "category": "session",
+            "title": "Name In The Streets",
+            "description": "Reach 20 Street Cred.",
+            "tag": "Session Quest",
+            "requirements": [
+                { "type": "street_cred", "target": 20 }
+            ],
+            "rewards": { "cash": 2500, "streetCred": 3 }
+        }
+    ],
+    "achievements": [
+        {
+            "id": "cred-starter",
+            "title": "Known By Name",
+            "description": "Reach 10 Street Cred.",
+            "tag": "Achievement",
+            "requirements": [
+                { "type": "street_cred", "target": 10 }
+            ],
+            "rewards": { "cash": 1500, "streetCred": 1 }
+        },
+        {
+            "id": "reward-rhythm",
+            "title": "Reward Rhythm",
+            "description": "Claim three rewards.",
+            "tag": "Achievement",
+            "requirements": [
+                { "type": "rewards_claimed", "target": 3 }
+            ],
+            "rewards": { "cash": 2200, "streetCred": 2 }
+        },
+        {
+            "id": "first-system",
+            "title": "First System",
+            "description": "Automate one hustle.",
+            "tag": "Achievement",
+            "requirements": [
+                { "type": "automated_count", "target": 1 }
+            ],
+            "rewards": { "cash": 3000, "streetCred": 4 }
+        },
+        {
+            "id": "route-expander",
+            "title": "Route Expander",
+            "description": "Unlock two districts.",
+            "tag": "Achievement",
+            "requirements": [
+                { "type": "districts_unlocked", "target": 2 }
+            ],
+            "rewards": { "cash": 5000, "streetCred": 5 }
+        },
+        {
+            "id": "night-shift",
+            "title": "Night Shift",
+            "description": "Tap hustles 120 times.",
+            "tag": "Achievement",
+            "requirements": [
+                { "type": "manual_taps", "target": 120 }
+            ],
+            "rewards": { "cash": 4500, "streetCred": 4 }
+        },
+        {
+            "id": "cash-buffer",
+            "title": "Cash Buffer",
+            "description": "Hold UGX 40,000 at once.",
+            "tag": "Achievement",
+            "requirements": [
+                { "type": "cash_on_hand", "target": 40000 }
+            ],
+            "rewards": { "cash": 6000, "streetCred": 5 }
+        },
+        {
+            "id": "city-operator",
+            "title": "City Operator",
+            "description": "Unlock all three districts.",
+            "tag": "Achievement",
+            "requirements": [
+                { "type": "districts_unlocked", "target": 3 }
+            ],
+            "rewards": { "cash": 12000, "streetCred": 8 }
+        }
+    ]
+}

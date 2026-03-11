@@ -2,113 +2,265 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Street Hustle</title>
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="assets/Street Hustle.png">
-    <link rel="shortcut icon" type="image/png" href="assets/Street Hustle.png">
-    <link rel="apple-touch-icon" href="assets/Street Hustle.png">
-
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BX3DC25WH2"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-BX3DC25WH2');
-    </script>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- ADD PLAYFAB SDK HERE -->
-    <script src="https://download.playfab.com/PlayFabClientApi.js"></script>
+    <meta name="description" content="Build a street-smart business empire across Kampala in a story-driven idle tycoon experience.">
+    <meta name="theme-color" content="#FFC700">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Street Hustle">
+    <link rel="manifest" href="./manifest.webmanifest">
+    <link rel="icon" type="image/svg+xml" href="./assets/app/icon.svg">
+    <link rel="alternate icon" type="image/png" href="./assets/app/icon-192.png">
+    <link rel="apple-touch-icon" href="./assets/app/apple-touch-icon-180.png">
+    <link rel="stylesheet" href="./css/styles.css">
 </head>
 <body>
-    <!-- WELCOME SCREEN -->
-    <div id="welcome-screen" class="welcome-screen">
-        <div class="welcome-content">
-            <div class="logo-section">
-                <h1 class="game-title">💰 Street Hustle</h1>
-                <p class="game-subtitle">Build Your Empire from the Streets</p>
+    <div class="app-bg" aria-hidden="true"></div>
+    <div id="app" class="app-shell">
+        <section id="landing-screen" class="screen landing-screen active" data-screen="landing" aria-labelledby="landing-title">
+            <div class="landing-hero">
+                <p class="eyebrow">Kampala Streets • Story-Driven Idle Tycoon</p>
+                <h1 id="landing-title" class="game-mark">Street Hustle</h1>
+                <p class="landing-copy">
+                    Start with honest side jobs, build your name, unlock districts, and grow a resilient hustle empire one smart move at a time.
+                </p>
+                <div class="landing-actions">
+                    <button id="start-button" class="button button-primary">Start New Journey</button>
+                    <button id="continue-button" class="button button-secondary hidden">Continue Journey</button>
+                    <button id="install-button" class="button button-ghost hidden">Install App</button>
+                </div>
+                <div id="install-hint" class="install-hint hidden" aria-live="polite"></div>
             </div>
-            
-            <div class="welcome-description">
-                <p>Start from washing clothes and work your way up to becoming the ultimate street entrepreneur!</p>
-                <div class="features">
-                    <div class="feature">🧺 Start Simple</div>
-                    <div class="feature">📱 Unlock New Hustles</div>
-                    <div class="feature">🤖 Automate Your Business</div>
-                    <div class="feature">💸 Make Bank</div>
+
+            <div class="landing-grid">
+                <article class="feature-panel">
+                    <h2>How To Play</h2>
+                    <ul class="feature-list">
+                        <li>Start with Wash Clothes and tap Hustle to build your first cash buffer</li>
+                        <li>Upgrade and unlock new hustles until automation takes over routine income</li>
+                        <li>Claim missions, achievements, and streak rewards to grow Street Cred</li>
+                        <li>Use Street Cred and district goals to unlock bigger parts of Kampala</li>
+                        <li>Choose specialization tracks and story-event decisions to shape how your empire scales</li>
+                    </ul>
+                </article>
+
+                <article class="feature-panel spotlight-panel">
+                    <p class="panel-label">Cruze Intelligent Systems (U) Ltd</p>
+                    <h2>Built to Feel Local</h2>
+                    <p>
+                        Street Hustle is published by Cruze Intelligent Systems (U) Ltd with a focus on accessible, culturally grounded digital experiences.
+                    </p>
+                    <a class="text-link" href="https://cruzeintelligentsystems.com" target="_blank" rel="noopener">Visit cruzeintelligentsystems.com</a>
+                </article>
+            </div>
+        </section>
+
+        <section id="game-shell" class="screen game-shell hidden" data-screen="game">
+            <header class="top-bar">
+                <div class="brand-lockup">
+                    <p class="eyebrow">Cruze Intelligent Systems (U) Ltd</p>
+                    <h1 class="section-title">Street Hustle</h1>
+                </div>
+                <div class="status-row">
+                    <span id="network-pill" class="status-pill">Offline-safe save</span>
+                    <span id="sync-pill" class="status-pill muted">Local only</span>
+                </div>
+            </header>
+
+            <section class="resource-bar" aria-label="Resources">
+                <article class="resource-card" data-resource="cash" data-icon="💰">
+                    <span class="resource-label">Cash</span>
+                    <strong id="cash-display" class="resource-value">UGX 0</strong>
+                </article>
+                <article class="resource-card" data-resource="cred" data-icon="⭐">
+                    <span class="resource-label">Street Cred</span>
+                    <strong id="cred-display" class="resource-value">0</strong>
+                </article>
+                <article class="resource-card" data-resource="income" data-icon="📈">
+                    <span class="resource-label">Income</span>
+                    <strong id="income-display" class="resource-value">UGX 0/s</strong>
+                </article>
+                <article class="resource-card" data-resource="earned" data-icon="🏆">
+                    <span class="resource-label">Total Earned</span>
+                    <strong id="earned-display" class="resource-value">UGX 0</strong>
+                </article>
+            </section>
+
+            <main class="main-stage">
+                <section id="home-screen" class="stage-screen active" data-stage="home">
+                    <div class="hero-stack">
+                        <article class="mission-card panel">
+                            <div class="panel-head">
+                                <div>
+                                    <p class="panel-label">Active Mission</p>
+                                    <h2 id="active-mission-title">Start the grind</h2>
+                                </div>
+                                <span id="active-mission-tag" class="tag tag-warm">Onboarding</span>
+                            </div>
+                            <p id="active-mission-copy" class="panel-copy"></p>
+                            <div class="progress-shell">
+                                <div id="active-mission-progress" class="progress-bar"></div>
+                            </div>
+                            <p id="active-mission-meta" class="progress-copy"></p>
+                        </article>
+
+                        <article class="district-card panel">
+                            <div class="panel-head">
+                                <div>
+                                    <p class="panel-label">Current District</p>
+                                    <h2 id="active-district-name">Kisenyi Start</h2>
+                                </div>
+                                <span id="district-status" class="tag tag-emerald">Unlocked</span>
+                            </div>
+                            <p id="active-district-copy" class="panel-copy"></p>
+                            <div class="district-meta">
+                                <span id="district-hustle-count"></span>
+                                <span id="district-requirement-copy"></span>
+                            </div>
+                            <button id="open-map-button" class="button button-secondary panel-button">Open District Map</button>
+                        </article>
+                    </div>
+
+                    <section class="content-section">
+                        <div class="section-head">
+                            <div>
+                                <p class="panel-label">Home Base</p>
+                                <h2 class="section-title">Hustles In Motion</h2>
+                            </div>
+                            <button id="save-button" class="button button-ghost compact-button">Save Progress</button>
+                        </div>
+                        <div id="active-effects" class="effect-ribbon hidden" aria-live="polite"></div>
+                        <div id="reward-tray" class="reward-tray" aria-live="polite"></div>
+                        <div id="hustle-list" class="hustle-list"></div>
+                    </section>
+                </section>
+
+                <section id="districts-screen" class="stage-screen" data-stage="districts">
+                    <div class="section-head">
+                        <div>
+                            <p class="panel-label">District Map</p>
+                            <h2 class="section-title">Grow Across Kampala</h2>
+                        </div>
+                    </div>
+                    <div id="district-list" class="district-list"></div>
+                </section>
+
+                <section id="journal-screen" class="stage-screen" data-stage="journal">
+                    <div class="section-head">
+                        <div>
+                            <p class="panel-label">Journal</p>
+                            <h2 class="section-title">Your Story So Far</h2>
+                        </div>
+                    </div>
+                    <div class="journal-grid">
+                        <article class="panel">
+                            <div class="panel-head">
+                                <div>
+                                    <p class="panel-label">Mission Ledger</p>
+                                    <h2>In Progress</h2>
+                                </div>
+                            </div>
+                            <div id="mission-list" class="stack-list"></div>
+                        </article>
+                        <article class="panel">
+                            <div class="panel-head">
+                                <div>
+                                    <p class="panel-label">Street Notes</p>
+                                    <h2>Recent Entries</h2>
+                                </div>
+                            </div>
+                            <div id="journal-list" class="stack-list"></div>
+                        </article>
+                    </div>
+                </section>
+
+                <section id="rewards-screen" class="stage-screen" data-stage="rewards">
+                    <div class="section-head">
+                        <div>
+                            <p class="panel-label">Rewards</p>
+                            <h2 class="section-title">Claim Momentum</h2>
+                        </div>
+                    </div>
+                    <div class="journal-grid">
+                        <article class="panel">
+                            <div class="panel-head">
+                                <div>
+                                    <p class="panel-label">Ready To Claim</p>
+                                    <h2>Reward Queue</h2>
+                                </div>
+                            </div>
+                            <div id="reward-list" class="stack-list"></div>
+                        </article>
+                        <article class="panel">
+                            <div class="panel-head">
+                                <div>
+                                    <p class="panel-label">Achievements</p>
+                                    <h2>Permanent Wins</h2>
+                                </div>
+                            </div>
+                            <div id="achievement-list" class="stack-list"></div>
+                        </article>
+                    </div>
+                </section>
+
+                <section id="more-screen" class="stage-screen" data-stage="more">
+                    <div class="section-head">
+                        <div>
+                            <p class="panel-label">More</p>
+                            <h2 class="section-title">Install, Save, and How It Works</h2>
+                        </div>
+                    </div>
+                    <div class="journal-grid">
+                        <article class="panel">
+                            <div class="panel-head">
+                                <div>
+                                    <p class="panel-label">App Status</p>
+                                    <h2>Install, Offline & Sync</h2>
+                                </div>
+                            </div>
+                            <div id="install-panel" class="stack-list"></div>
+                        </article>
+
+                        <article class="panel">
+                            <div class="panel-head">
+                                <div>
+                                    <p class="panel-label">About Cruze</p>
+                                    <h2 id="studio-name">Cruze Intelligent Systems (U) Ltd</h2>
+                                </div>
+                            </div>
+                            <div id="studio-panel" class="studio-panel"></div>
+                        </article>
+                    </div>
+                </section>
+            </main>
+
+            <nav class="bottom-nav" aria-label="Primary">
+                <button class="nav-button active" data-target="home">Home</button>
+                <button class="nav-button" data-target="districts">District Map</button>
+                <button class="nav-button" data-target="journal">Journal</button>
+                <button class="nav-button" data-target="rewards">Rewards</button>
+                <button class="nav-button" data-target="more">More</button>
+            </nav>
+        </section>
+    </div>
+
+    <div id="toast-region" class="toast-region" aria-live="polite" aria-atomic="true"></div>
+
+    <div id="modal-backdrop" class="modal-backdrop hidden" aria-hidden="true">
+        <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+            <div class="panel-head">
+                <div>
+                    <p id="modal-label" class="panel-label">Street Hustle</p>
+                    <h2 id="modal-title">Notice</h2>
                 </div>
             </div>
-            
-            <div class="welcome-actions">
-                <button id="start-game" class="start-button">Start Hustling</button>
-                <button id="load-game" class="load-button" style="display: none;">Continue Game</button>
-            </div>
-        </div>
+            <div id="modal-body" class="modal-body"></div>
+            <div id="modal-actions" class="modal-actions"></div>
+        </section>
     </div>
 
-    <!-- MAIN GAME -->
-    <div id="game-container" class="game-container">
-        <!-- TOP HEADER -->
-        <header class="top-bar">
-            <div class="stat-box">
-                <span class="stat-label">CASH</span>
-                <span class="stat-value" id="money-display">UGX 0</span>
-            </div>
-            <div class="stat-box">
-                <span class="stat-label">INCOME</span>
-                <span class="stat-value" id="income-display">UGX 0/s</span>
-            </div>
-            <div class="stat-box">
-                <span class="stat-label">TOTAL EARNED</span>
-                <span class="stat-value" id="total-earnings-display">UGX 0</span>
-            </div>
-        </header>
-
-        <!-- MAIN GAME AREA -->
-        <main id="hustle-grid" class="hustle-grid">
-            <!-- Hustle cards will be dynamically inserted here -->
-        </main>
-
-        <!-- BOTTOM NAVIGATION -->
-        <footer class="bottom-nav">
-            <button id="get-advice" class="nav-button advice-btn">
-                <span class="nav-icon">🤖</span>
-                <span class="nav-label">Advice</span>
-            </button>
-            <button id="total-earnings" class="nav-button earnings-btn">
-                <span class="nav-icon">📊</span>
-                <span class="nav-label">Stats</span>
-            </button>
-            <button id="exit-game" class="nav-button exit-btn">
-                <span class="nav-icon">🚪</span>
-                <span class="nav-label">Exit</span>
-            </button>
-            <button id="reset-game" class="nav-button reset-btn">
-                <span class="nav-icon">🔄</span>
-                <span class="nav-label">Reset</span>
-            </button>
-        </footer>
-    </div>
-
-    <!-- SCRIPTS -->
-    <script src="js/logic/playfabService.js"></script>
-    <script src="js/logic/gameEngine.js"></script>
-    <script src="js/logic/eventManager.js"></script>
-    <script src="js/logic/adviceService.js"></script>
-    <script src="js/components/HustleCard.js"></script>
-    <script src="js/main.js"></script>
-
-    <!-- Ad Frame (outside .game-container, at very bottom) -->
-    <div id="frame" style="width: 100%; position: fixed; left: 0; bottom: 0; z-index: 9999; background: transparent; height: 38px;">
-        <iframe data-aa='2404554' src='//acceptable.a-ads.com/2404554' style='border:0; padding:0; width:100%; height:38px; min-height: 30px; max-height: 38px; overflow:hidden; background-color: transparent;'></iframe>
-        <a style="display: block; text-align: right; font-size: 12px; color: #888; background: transparent;" id="frame-link" href="https://aads.com/campaigns/new/?source_id=2404554&source_type=ad_unit&partner=2404554" target="_blank" rel="noopener">Advertise here</a>
-        <a href="https://aads.com/?partner=2404554" style="display: block; text-align: right; font-size: 12px; color: #888; background: transparent;" target="_blank" rel="noopener">Advertise with AADS</a>
-    </div>
+    <script type="module" src="./js/main.js"></script>
 </body>
 </html>
